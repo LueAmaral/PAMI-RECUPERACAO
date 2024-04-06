@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, Alert } from 'react-native';
 import { Text, TextInput, Menu, Button } from 'react-native-paper';
 import { useTheme } from '../context/ThemeContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -34,11 +34,30 @@ function Join() {
   const [email, setEmail] = React.useState('');
   const [endereco, setEndereco] = React.useState('');
   const [curso, setCurso] = React.useState('');
+  const [MaiorDeIdade, setMaiorDeIdade] = React.useState(false);
   
   const mudancaData = (date: string) => {
     setDataNascimento(date);
     const age = calcularIdade(date);
-    console.log(age); // ou faça algo com a idade
+    setMaiorDeIdade(age >= 18);
+  };
+
+  const Enviar = () => {
+    if (MaiorDeIdade) {
+      
+      console.log('Dados salvos', {
+        rg,
+        nome,
+        dataNascimento,
+        celular,
+        telefone,
+        email,
+        endereco,
+        curso
+      });
+    } else {
+      Alert.alert('Você precisa ter mais de 18 anos.');
+    }
   };
 
   return (
@@ -48,7 +67,7 @@ function Join() {
       >
 
         {/* RG */}
-        <TextInput
+        <TextInputMask
           label={'RG'}
           value={rg}
           mode='outlined'
@@ -56,6 +75,10 @@ function Join() {
           placeholder="11.111.111-1"
           keyboardType="numeric"
           style={styles.input}
+          type={'custom'}
+          options={{
+            mask: '99.999.999-9',
+          }}
         />
 
         {/* Nome */}
@@ -123,7 +146,7 @@ function Join() {
           keyboardType="numeric"
           style={styles.input}
           render={props =>
-            // @ts-ignore
+             // @ts-ignore
             <TextInputMask
               {...props}
               type={'cel-phone'}
@@ -178,17 +201,16 @@ function Join() {
           anchor={<Text onPress={openMenu} style={styles.hideit} >Abrir Menu</Text>}
         >
           <Menu.Item onPress={() => {setCurso('Administração'); closeMenu();}} title="Administração" />
-          <Menu.Item onPress={() => {setCurso('Desenvolviemnto de Sistemas'); closeMenu();}} title="Desenvolvimento de Sistemas" />
+          <Menu.Item onPress={() => {setCurso('Desenvolvimento de Sistemas'); closeMenu();}} title="Desenvolvimento de Sistemas" />
           <Menu.Item onPress={() => {setCurso('Enfermagem'); closeMenu();}} title="Enfermagem" />
         </Menu>
 
         <Button
           mode='contained'
-          onPress={() => console.log('enviar')}
+          onPress={Enviar}
         >
           Enviar
         </Button>
-
 
       </ScrollView>
   );
