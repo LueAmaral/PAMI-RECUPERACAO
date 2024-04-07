@@ -150,7 +150,7 @@ function Join() {
             {...props}
             type={'custom'}
             options={{
-              mask: '99.999.999-9',
+              mask: 'SS.SSS.SSS-S',
             }}
           />
         }
