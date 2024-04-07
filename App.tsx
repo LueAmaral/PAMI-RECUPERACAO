@@ -34,7 +34,7 @@ function App() {
           <Stack.Screen
             name="JoinList"
             component={JoinList}
-            options={{ title: 'Lista de Inscrições'}}
+            options={{ title: 'Lista de Ingressos'}}
           />
         </Stack.Navigator>
     </ThemeContextProvider>
